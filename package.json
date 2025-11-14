@@ -1,0 +1,30 @@
+{
+  "name": "idea-2-russian-rulette",
+  "version": "1.0.0",
+  "description": "A vibrant, PsyCat-inspired party game web experience. Hosts can spin up quick rooms, invite friends via link/QR, play multi-round Russian roulette shot sessions, share results, and toggle safety-first features like non-alcohol mode.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naokiwork/idea-2-russian-rulette.git"
+  },
+  "keywords": [
+    "party",
+    "roulette",
+    "psycat",
+    "vite"
+  ],
+  "author": "Naoki Onda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naokiwork/idea-2-russian-rulette/issues"
+  },
+  "homepage": "https://github.com/naokiwork/idea-2-russian-rulette#readme",
+  "devDependencies": {
+    "vite": "^7.2.2"
+  }
+}

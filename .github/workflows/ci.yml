@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   build:
@@ -18,5 +18,13 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm run test
+      - name: Check formatting
+        run: npm run format
       - name: Run build
         run: npm run build
+      - name: E2E placeholder
+        run: npm run test:e2e

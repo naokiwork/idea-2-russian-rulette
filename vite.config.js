@@ -1,12 +1,12 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  root: ".",
+  root: '.',
   server: {
     open: true,
   },
   build: {
-    outDir: "dist",
+    outDir: 'dist',
     emptyOutDir: true,
   },
 });

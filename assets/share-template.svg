@@ -1,0 +1,19 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder hero for Russian Roulette Shot Game">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b347ff" />
+      <stop offset="50%" stop-color="#ff5fa2" />
+      <stop offset="100%" stop-color="#ff9a44" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#grad)" rx="48" />
+  <text x="50%" y="35%" text-anchor="middle" font-size="72" font-family="'Space Grotesk', sans-serif" fill="#0b0413" font-weight="600">
+    Russian Roulette Shot Game
+  </text>
+  <text x="50%" y="50%" text-anchor="middle" font-size="42" font-family="'Space Grotesk', sans-serif" fill="#0b0413">
+    PsyCat-inspired UI · Safety-first Party Play
+  </text>
+  <text x="50%" y="70%" text-anchor="middle" font-size="28" font-family="'Space Grotesk', sans-serif" fill="#0b0413">
+    Replace this image with real screenshots under assets/
+  </text>
+</svg>

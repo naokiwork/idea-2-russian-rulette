@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -13,192 +13,448 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
+    <a class="skip-link" href="#main">メインコンテンツへ移動</a>
+    <header
+      class="site-header"
+      role="banner"
+      aria-label="サイト全体のナビゲーション"
+    >
       <div class="brand">
         <span class="logo">🎯</span>
         <div>
-          <p class="eyebrow">Party Multiplayer</p>
-          <h1>Russian Roulette Shot Game</h1>
+          <p class="eyebrow" data-i18n="brand.tagline">Party Multiplayer</p>
+          <h1 data-i18n="brand.title">Russian Roulette Shot Game</h1>
         </div>
       </div>
-      <nav>
-        <a href="#hero">🥳 ホーム</a>
-        <a href="#quick-game">⚡ クイックゲーム</a>
-        <a href="#events">📅 イベント</a>
-        <a href="#lobby">👥 ロビー</a>
-        <a href="#history">🕑 履歴</a>
-        <a href="#safety">🛡 セーフティ</a>
+      <nav aria-label="主要セクション">
+        <a href="#hero" data-i18n="nav.home">🥳 ホーム</a>
+        <a href="#quick-game" data-i18n="nav.quickGame">⚡ クイックゲーム</a>
+        <a href="#events" data-i18n="nav.events">📅 イベント</a>
+        <a href="#lobby" data-i18n="nav.lobby">👥 ロビー</a>
+        <a href="#history" data-i18n="nav.history">🕑 履歴</a>
+        <a href="#safety" data-i18n="nav.safety">🛡 セーフティ</a>
       </nav>
-      <button class="cta" id="headerQuickStart">今すぐ開始</button>
+      <div class="header-actions">
+        <div class="locale-switcher">
+          <label for="localeSelect" class="sr-only" data-i18n="locale.label"
+            >言語を選択</label
+          >
+          <select id="localeSelect" aria-label="言語を選択">
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <button class="cta" id="headerQuickStart" data-i18n="buttons.startNow">
+          今すぐ開始
+        </button>
+      </div>
     </header>
 
-    <main>
-      <section class="hero" id="hero">
+    <main id="main">
+      <section class="hero" id="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">ソーシャル飲み会向け · リアルタイム</p>
-          <h2>引き金を引いて、盛り上げよう。<br />だけど安全第一で。</h2>
-          <p class="lede">
-            PsyCat Gamesの明るくビビッドなUI/UXを踏襲したロシアンルーレット型ショットゲーム。
+          <p class="eyebrow" data-i18n="hero.eyebrow">
+            ソーシャル飲み会向け · リアルタイム
+          </p>
+          <h2 id="hero-title" data-i18n="hero.title" data-i18n-type="html">
+            引き金を引いて、盛り上げよう。<br />だけど安全第一で。
+          </h2>
+          <p class="lede" data-i18n="hero.description">
+            PsyCat
+            Gamesの明るくビビッドなUI/UXを踏襲したロシアンルーレット型ショットゲーム。
             即席の部屋作成、イベント連携、履歴管理、セーフティアラートを搭載。
           </p>
           <div class="hero-actions">
-            <button class="cta" id="heroQuickStart">⚡ クイックゲーム</button>
-            <button class="secondary" id="heroEventStart">📅 イベントから開始</button>
+            <button
+              class="cta"
+              id="heroQuickStart"
+              data-i18n="buttons.quickGame"
+            >
+              ⚡ クイックゲーム
+            </button>
+            <button
+              class="secondary"
+              id="heroEventStart"
+              data-i18n="buttons.fromEvent"
+            >
+              📅 イベントから開始
+            </button>
           </div>
         </div>
         <div class="hero-card">
-          <p class="eyebrow">次のイベント</p>
-          <h3>今夜 21:00「サークル飲み」</h3>
-          <p>6人参加予定 · 3ラウンドプリセット</p>
-          <button class="ghost" id="heroJoinEvent">イベントを見る</button>
+          <p class="eyebrow" data-i18n="hero.nextEventLabel">次のイベント</p>
+          <h3 data-i18n="hero.nextEventTitle">今夜 21:00「サークル飲み」</h3>
+          <p data-i18n="hero.nextEventMeta">
+            6人参加予定 · 3ラウンドプリセット
+          </p>
+          <button
+            class="ghost"
+            id="heroJoinEvent"
+            data-i18n="buttons.viewEvents"
+          >
+            イベントを見る
+          </button>
         </div>
       </section>
 
       <section class="feature-grid">
         <article>
-          <p class="eyebrow">🔥 人気</p>
-          <h3>Quick Game Sprints</h3>
-          <p>設定を保存してワンタップでロビーを開設。QR & リンク招待。</p>
+          <p class="eyebrow" data-i18n="feature.popular.label">🔥 人気</p>
+          <h3 data-i18n="feature.popular.title">Quick Game Sprints</h3>
+          <p data-i18n="feature.popular.copy">
+            設定を保存してワンタップでロビーを開設。QR & リンク招待。
+          </p>
         </article>
         <article>
-          <p class="eyebrow">👯 チーム</p>
-          <h3>Friends & Titles</h3>
-          <p>リザルトで称号をシェアし、チームタイムラインに投稿。</p>
+          <p class="eyebrow" data-i18n="feature.team.label">👯 チーム</p>
+          <h3 data-i18n="feature.team.title">Friends & Titles</h3>
+          <p data-i18n="feature.team.copy">
+            リザルトで称号をシェアし、チームタイムラインに投稿。
+          </p>
         </article>
         <article>
-          <p class="eyebrow">🛡 セーフティ</p>
-          <h3>非アルモード</h3>
-          <p>飲み過ぎアラートやノンアルペナルティへ即切替。</p>
+          <p class="eyebrow" data-i18n="feature.safety.label">🛡 セーフティ</p>
+          <h3 data-i18n="feature.safety.title">非アルモード</h3>
+          <p data-i18n="feature.safety.copy">
+            飲み過ぎアラートやノンアルペナルティへ即切替。
+          </p>
         </article>
       </section>
+      <p class="scroll-hint" aria-hidden="true" data-i18n="hints.featureScroll">
+        ← モバイルでは左右にスワイプして特集カードを閲覧
+      </p>
 
-      <section class="app-grid" aria-label="Game workspace">
-        <article class="card" id="quick-game">
+      <section class="app-grid" aria-label="ゲームワークスペース">
+        <article
+          class="card"
+          id="quick-game"
+          role="region"
+          aria-labelledby="quick-game-title"
+        >
           <header>
-            <p class="eyebrow">⚡ Quick Game</p>
-            <h3>ルーム作成</h3>
+            <p class="eyebrow" data-i18n="quick.eyebrow">⚡ Quick Game</p>
+            <h3 id="quick-game-title" data-i18n="quick.title">ルーム作成</h3>
           </header>
-          <form id="quickGameForm">
-            <label>ゲーム名<input name="name" value="Friday Russian" required /></label>
+          <form id="quickGameForm" aria-describedby="quickGameHint">
+            <p id="quickGameHint" class="sr-only" data-i18n="quick.hint">
+              必須フィールドを入力するとクイックゲーム用のロビーが作成されます
+            </p>
+            <label for="gameName" data-i18n="quick.gameName">ゲーム名</label>
+            <input id="gameName" name="name" value="Friday Russian" required />
             <div class="two-col">
-              <label>最大人数<input type="number" name="maxPlayers" min="2" max="12" value="6" /></label>
-              <label>ショット数<input type="number" name="shotCount" min="1" max="6" value="1" /></label>
+              <div class="field-group">
+                <label for="maxPlayers" data-i18n="quick.maxPlayers"
+                  >最大人数</label
+                >
+                <input
+                  id="maxPlayers"
+                  type="number"
+                  name="maxPlayers"
+                  min="2"
+                  max="12"
+                  value="6"
+                />
+              </div>
+              <div class="field-group">
+                <label for="shotCount" data-i18n="quick.shotCount"
+                  >ショット数</label
+                >
+                <input
+                  id="shotCount"
+                  type="number"
+                  name="shotCount"
+                  min="1"
+                  max="6"
+                  value="1"
+                />
+              </div>
             </div>
             <div class="two-col">
-              <label>チャンバー数<input type="number" name="chambers" min="3" max="12" value="6" /></label>
-              <label>弾丸数<input type="number" name="bullets" min="1" max="6" value="1" /></label>
+              <div class="field-group">
+                <label for="chambers" data-i18n="quick.chambers"
+                  >チャンバー数</label
+                >
+                <input
+                  id="chambers"
+                  type="number"
+                  name="chambers"
+                  min="3"
+                  max="12"
+                  value="6"
+                />
+              </div>
+              <div class="field-group">
+                <label for="bullets" data-i18n="quick.bullets">弾丸数</label>
+                <input
+                  id="bullets"
+                  type="number"
+                  name="bullets"
+                  min="1"
+                  max="6"
+                  value="1"
+                />
+              </div>
             </div>
-            <label>ペナルティ
-              <select name="penalty">
-                <option value="shot">1 Shot</option>
-                <option value="water">Water</option>
-                <option value="dare">Funny Dare</option>
-              </select>
-            </label>
-            <label>ラウンド数
-              <select name="rounds">
-                <option value="unlimited">制限なし</option>
-                <option value="6">6 ラウンド</option>
-                <option value="10">10 ラウンド</option>
-              </select>
-            </label>
-            <label class="toggle">
-              <span>非アルモード</span>
-              <input type="checkbox" name="nonAlcohol" />
-            </label>
-            <label>公開設定
-              <select name="privacy">
-                <option value="private">Private</option>
-                <option value="public">Public</option>
-              </select>
-            </label>
-            <button class="cta" type="submit">ルームを作成</button>
+            <label for="penalty" data-i18n="quick.penalty">ペナルティ</label>
+            <select id="penalty" name="penalty">
+              <option value="shot" data-i18n="penalty.shot">1 Shot</option>
+              <option value="water" data-i18n="penalty.water">Water</option>
+              <option value="dare" data-i18n="penalty.dare">Funny Dare</option>
+            </select>
+            <label for="rounds" data-i18n="quick.rounds">ラウンド数</label>
+            <select id="rounds" name="rounds">
+              <option value="unlimited" data-i18n="rounds.unlimited">
+                制限なし
+              </option>
+              <option value="6" data-i18n="rounds.six">6 ラウンド</option>
+              <option value="10" data-i18n="rounds.ten">10 ラウンド</option>
+            </select>
+            <div class="toggle">
+              <label for="nonAlcohol" data-i18n="quick.nonAlcohol"
+                >非アルモード</label
+              >
+              <div class="toggle-control">
+                <input
+                  id="nonAlcohol"
+                  type="checkbox"
+                  name="nonAlcohol"
+                  aria-describedby="nonAlcoholHint"
+                />
+                <span
+                  id="nonAlcoholHint"
+                  class="sr-only"
+                  data-i18n="quick.nonAlcoholHint"
+                >
+                  飲み物を水やジョークに切り替えます
+                </span>
+              </div>
+            </div>
+            <label for="privacy" data-i18n="quick.privacy">公開設定</label>
+            <select id="privacy" name="privacy">
+              <option value="private" data-i18n="privacy.private">
+                Private
+              </option>
+              <option value="public" data-i18n="privacy.public">Public</option>
+            </select>
+            <button class="cta" type="submit" data-i18n="buttons.createRoom">
+              ルームを作成
+            </button>
           </form>
         </article>
 
-        <article class="card" id="events">
+        <article
+          class="card"
+          id="events"
+          role="region"
+          aria-labelledby="events-title"
+        >
           <header>
-            <p class="eyebrow">📅 Events</p>
-            <h3>スケジュールから開始</h3>
+            <p class="eyebrow" data-i18n="events.eyebrow">📅 Events</p>
+            <h3 id="events-title" data-i18n="events.title">
+              スケジュールから開始
+            </h3>
           </header>
-          <ul class="event-list" id="eventList"></ul>
+          <ul class="event-list" id="eventList" aria-live="polite"></ul>
+          <p
+            class="scroll-hint"
+            aria-hidden="true"
+            data-i18n="hints.eventsScroll"
+          >
+            ↕ スクロールまたはドラッグで他のイベントを確認
+          </p>
         </article>
 
-        <article class="card" id="lobby">
+        <article
+          class="card"
+          id="lobby"
+          role="region"
+          aria-labelledby="lobby-title"
+        >
           <header>
-            <p class="eyebrow">👥 Lobby</p>
-            <h3>プレイヤー待機</h3>
-            <p id="roomMeta">ルーム未作成</p>
+            <p class="eyebrow" data-i18n="lobby.eyebrow">👥 Lobby</p>
+            <h3 id="lobby-title" data-i18n="lobby.title">プレイヤー待機</h3>
+            <p id="roomMeta" aria-live="polite" data-i18n="lobby.metaEmpty">
+              ルーム未作成
+            </p>
           </header>
-          <div class="qr-block" id="qrPlaceholder">QRコード生成中…</div>
-          <button class="ghost" id="copyInvite" disabled>招待リンクをコピー</button>
-          <ul class="player-list" id="playerList"></ul>
+          <div
+            class="qr-block"
+            id="qrPlaceholder"
+            role="img"
+            aria-label="招待用QRコードプレビュー"
+          >
+            QRコード生成中…
+          </div>
+          <button
+            class="ghost"
+            id="copyInvite"
+            disabled
+            data-i18n="buttons.copyInvite"
+          >
+            招待リンクをコピー
+          </button>
+          <ul class="player-list" id="playerList" aria-live="polite"></ul>
           <div class="lobby-actions">
-            <button class="secondary" id="toggleReady">自分をReady</button>
-            <button class="cta" id="startGame" disabled>ゲーム開始</button>
+            <button
+              class="secondary"
+              id="toggleReady"
+              data-i18n="buttons.readySelf"
+            >
+              自分をReady
+            </button>
+            <button
+              class="cta"
+              id="startGame"
+              disabled
+              data-i18n="buttons.startGame"
+            >
+              ゲーム開始
+            </button>
           </div>
         </article>
 
-        <article class="card" id="gameplay">
+        <article
+          class="card"
+          id="gameplay"
+          role="region"
+          aria-labelledby="gameplay-title"
+        >
           <header>
-            <p class="eyebrow">🎮 Gameplay</p>
-            <h3 id="roundLabel">Round —</h3>
-            <p id="turnLabel">ロビー待機中…</p>
+            <p class="eyebrow" data-i18n="gameplay.eyebrow">🎮 Gameplay</p>
+            <h3 id="gameplay-title" data-i18n="gameplay.title">
+              ゲーム進行状況
+            </h3>
+            <p id="roundLabel" aria-live="polite">Round —</p>
+            <p
+              id="turnLabel"
+              aria-live="polite"
+              data-i18n="gameplay.turnWaiting"
+            >
+              ロビー待機中…
+            </p>
           </header>
           <div class="turn-panel">
-            <p id="turnInfo">プレイヤーが揃うと開始できます。</p>
-            <button class="cta" id="pullTrigger" disabled>Pull Trigger</button>
-            <button class="ghost" id="endGame" disabled>ゲームを終了</button>
-            <button class="secondary" id="toggleNonAlcohol" disabled>🛡 非アルモード ON</button>
+            <p id="turnInfo" aria-live="polite" data-i18n="gameplay.waitInfo">
+              プレイヤーが揃うと開始できます。
+            </p>
+            <button
+              class="cta"
+              id="pullTrigger"
+              disabled
+              data-i18n="buttons.pullTrigger"
+            >
+              Pull Trigger
+            </button>
+            <button
+              class="ghost"
+              id="endGame"
+              disabled
+              data-i18n="buttons.endGame"
+            >
+              ゲームを終了
+            </button>
+            <button class="secondary" id="toggleNonAlcohol" disabled>
+              🛡 非アルモード ON
+            </button>
           </div>
-          <div class="history-block">
-            <h4>ラウンドログ</h4>
+          <div class="history-block" aria-live="polite">
+            <h4 data-i18n="gameplay.roundLog">ラウンドログ</h4>
             <ul id="roundHistory"></ul>
           </div>
-          <div class="alert" id="safetyAlert" hidden>
-            <strong>⚠ 飲み過ぎアラート</strong>
-            <p>ヒットが多すぎます！非アルモードに切り替えましょう。</p>
+          <div class="alert" id="safetyAlert" hidden role="alert">
+            <strong data-i18n="alerts.overdrink.title"
+              >⚠ 飲み過ぎアラート</strong
+            >
+            <p data-i18n="alerts.overdrink.copy">
+              ヒットが多すぎます！非アルモードに切り替えましょう。
+            </p>
           </div>
         </article>
 
-        <article class="card" id="results">
+        <article
+          class="card"
+          id="results"
+          role="region"
+          aria-labelledby="results-title"
+        >
           <header>
-            <p class="eyebrow">🏁 Results</p>
-            <h3>ランキング & シェア</h3>
+            <p class="eyebrow" data-i18n="results.eyebrow">🏁 Results</p>
+            <h3 id="results-title" data-i18n="results.title">
+              ランキング & シェア
+            </h3>
           </header>
           <div id="resultContent">
-            <p>まだ結果はありません。</p>
+            <p data-i18n="results.empty">まだ結果はありません。</p>
           </div>
           <div class="result-actions">
-            <button class="cta" id="rematch" disabled>同メンバーで再戦</button>
-            <button class="ghost" id="shareResult" disabled>SNSにシェア</button>
+            <button
+              class="cta"
+              id="rematch"
+              disabled
+              data-i18n="buttons.rematch"
+            >
+              同メンバーで再戦
+            </button>
+            <button
+              class="ghost"
+              id="shareResult"
+              disabled
+              data-i18n="buttons.share"
+            >
+              SNSにシェア
+            </button>
           </div>
         </article>
 
-        <article class="card" id="history">
+        <article
+          class="card"
+          id="history"
+          role="region"
+          aria-labelledby="history-title"
+        >
           <header>
-            <p class="eyebrow">🕑 History</p>
-            <h3>ゲームログ</h3>
+            <p class="eyebrow" data-i18n="history.eyebrow">🕑 History</p>
+            <h3 id="history-title" data-i18n="history.title">ゲームログ</h3>
           </header>
           <ul class="history-list" id="historyList"></ul>
+          <p
+            class="scroll-hint"
+            aria-hidden="true"
+            data-i18n="hints.historyScroll"
+          >
+            ↕ スクロールして過去のゲームを表示
+          </p>
         </article>
 
-        <article class="card" id="safety">
+        <article
+          class="card"
+          id="safety"
+          role="region"
+          aria-labelledby="safety-title"
+        >
           <header>
-            <p class="eyebrow">🛡 Safety</p>
-            <h3>安心の仕組み</h3>
+            <p class="eyebrow" data-i18n="safety.eyebrow">🛡 Safety</p>
+            <h3 id="safety-title" data-i18n="safety.title">安心の仕組み</h3>
           </header>
           <ul class="safety-points">
-            <li>リアルタイムの飲酒カウントでアラートを表示</li>
-            <li>ホストはいつでも非アルモードに切替可能</li>
-            <li>ログに安全イベントを保存し、あとで確認</li>
+            <li data-i18n="safety.point1">
+              リアルタイムの飲酒カウントでアラートを表示
+            </li>
+            <li data-i18n="safety.point2">
+              ホストはいつでも非アルモードに切替可能
+            </li>
+            <li data-i18n="safety.point3">
+              ログに安全イベントを保存し、あとで確認
+            </li>
           </ul>
-          <button class="ghost" id="safetyGuide">詳細ガイドを見る</button>
+          <button class="ghost" id="safetyGuide" data-i18n="buttons.viewGuide">
+            詳細ガイドを見る
+          </button>
         </article>
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
       <div>
         <h4>About</h4>
         <a href="#">チーム紹介</a>
@@ -216,22 +472,72 @@
         <button class="ghost">App Store</button>
         <button class="ghost">Google Play</button>
       </div>
-      <p class="copyright">© 2025 Russian Roulette Shot Game · Vanilla Family</p>
+      <p class="copyright">
+        © 2025 Russian Roulette Shot Game · Vanilla Family
+      </p>
     </footer>
 
     <div class="modal" id="guideModal" aria-hidden="true">
-      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+      <div
+        class="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="guideTitle"
+        aria-describedby="guideList"
+      >
         <button class="ghost close" id="closeGuide">✕</button>
         <p class="eyebrow">Safety Guide</p>
-        <h3 id="guideTitle">安全運営チェックリスト</h3>
-        <ul>
-          <li>2回以上ヒットしたプレイヤーには水分補給を促す</li>
-          <li>GPSを利用して帰宅モードを提案（オプション）</li>
-          <li>非アルモードをイベント冒頭で案内</li>
-          <li>シェア画像に「飲み過ぎ注意」バッジを追加</li>
-        </ul>
+        <h3 id="guideTitle" data-i18n="guide.title">安全運営チェックリスト</h3>
+        <div id="guideList" class="guide-list">
+          <details>
+            <summary data-i18n="guide.tip1.title">
+              2回以上ヒットしたプレイヤーには水分補給を促す
+            </summary>
+            <p data-i18n="guide.tip1.copy">
+              ホストはワンタップで非アルモード案内を送信できます。
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="guide.tip2.title">
+              GPSを利用して帰宅モードを提案（オプション）
+            </summary>
+            <p data-i18n="guide.tip2.copy">
+              安全な帰宅ルートを提示し、飲酒を控えるようリマインドしましょう。
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="guide.tip3.title">
+              非アルモードをイベント冒頭で案内
+            </summary>
+            <p data-i18n="guide.tip3.copy">
+              みんなの準備が整う前にルール説明とモード切替の方法を共有してください。
+            </p>
+          </details>
+          <details>
+            <summary data-i18n="guide.tip4.title">
+              シェア画像に「飲み過ぎ注意」バッジを追加
+            </summary>
+            <p data-i18n="guide.tip4.copy">
+              アプリのシェア設定から安全バッジを有効にすると自動で表示されます。
+            </p>
+          </details>
+        </div>
+        <button
+          class="cta modal-action"
+          id="modalToggleNonAlcohol"
+          data-i18n="buttons.modalNonAlcohol"
+        >
+          🛡 非アルモードに切替
+        </button>
       </div>
     </div>
+
+    <div
+      class="toast-region"
+      id="toastRegion"
+      role="status"
+      aria-live="polite"
+    ></div>
 
     <script type="module" src="app.js"></script>
   </body>

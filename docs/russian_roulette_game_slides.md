@@ -3,14 +3,17 @@
 ## Slide 1 — Title
 
 # **Russian Roulette Shot Game App**
+
 ### Game Scenario + Screens + Wireframes
-*Slide-style Specification Document*
+
+_Slide-style Specification Document_
 
 ---
 
 ## Slide 2 — Overview
 
 ## **What This App Is**
+
 A party-oriented social drinking game app featuring:
 
 - Russian roulette shot gameplay
@@ -81,6 +84,7 @@ The app includes the following six scenarios:
 ## Slide 7 — S3: Friends Join the Game
 
 ### Join via Link
+
 1. Tap link
 2. App opens
 3. Confirm room info
@@ -88,6 +92,7 @@ The app includes the following six scenarios:
 5. Join Lobby
 
 ### Join via QR
+
 1. Scan QR
 2. Follow same flow
 
@@ -96,19 +101,23 @@ The app includes the following six scenarios:
 ## Slide 8 — S4: Multi-Round Gameplay
 
 ### 1. Lobby → Game Start
+
 - All players tap **Ready**
 - Host taps **Start Game**
 
 ### 2. Round Start
+
 - Round number increases
 - Turn order determined
 
 ### 3. Player Turn
+
 - Active player sees **Pull Trigger**
 - Server determines HIT / SAFE
 - All devices show result
 
 ### 4. Round End
+
 - If hit → round ends
 - Host chooses: Next Round / End Game
 
@@ -130,11 +139,14 @@ After match:
 ## Slide 10 — S6: Safety Feature Scenarios
 
 ### Overdrinking Alert
+
 Triggered when:
+
 - Too many hits
 - User reports high drink count
 
 ### Non-Alcohol Mode
+
 - Replaces shot penalties with water / soft drink / jokes
 - Host can toggle any time
 
@@ -142,15 +154,15 @@ Triggered when:
 
 ## Slide 11 — Screen List
 
-| Screen | Purpose |
-|--------|---------|
-| Home | Start games / events / view history |
-| Game Settings | Configure game rules |
-| Lobby | Wait for members / invite / ready check |
-| Game Round | Main gameplay |
-| Result Screen | Rankings / share / rematch |
-| History List | Past games overview |
-| History Detail | Per-round logs |
+| Screen         | Purpose                                 |
+| -------------- | --------------------------------------- |
+| Home           | Start games / events / view history     |
+| Game Settings  | Configure game rules                    |
+| Lobby          | Wait for members / invite / ready check |
+| Game Round     | Main gameplay                           |
+| Result Screen  | Rankings / share / rematch              |
+| History List   | Past games overview                     |
+| History Detail | Per-round logs                          |
 
 ---
 
@@ -351,6 +363,7 @@ R8: No hit (timeout)
 ## Slide 19 — Summary
 
 ### ✔ Includes:
+
 - Full game scenarios
 - Player flows
 - Multi-round logic
@@ -359,6 +372,7 @@ R8: No hit (timeout)
 - Wireframes
 
 ### ✔ Ready for:
+
 - MVP development plan
 - Backend API design
 - Database schema

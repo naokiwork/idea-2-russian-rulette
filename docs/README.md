@@ -8,6 +8,8 @@ This directory aggregates the research artifacts that shape the Russian Roulette
    - Full breakdown of the PsyCat Games experience (visual system, navigation, UX heuristics, improvement backlog).
 2. **Experience Slides / Flow Specs** — [`russian_roulette_game_slides.md`](./russian_roulette_game_slides.md)
    - Slide-style spec capturing the game scenarios, wireframes, and MVP scope.
+3. **Deployment Guide** — [`DEPLOYMENT.md`](./DEPLOYMENT.md)
+   - Step-by-step instructions for GitHub Pages, Vercel/Netlify, and release tagging.
 
 ## Usage Guidelines
 

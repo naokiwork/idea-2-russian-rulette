@@ -73,8 +73,17 @@ npm run test:e2e   # placeholder Playwright hook (set RUN_PLAYWRIGHT=true to run
 ## 🌐 Localization
 
 - All UI/UX copy lives in `locales/{lang}.json`. Each entry maps to a `data-i18n` attribute in the markup or toasts in `app.js`.
-- Switch languages from the header dropdown (JP/EN included). The selection persists via `localStorage`.
-- Add a new language by duplicating a JSON file, translating the values, and adding the locale code to the dropdown + `loadLocale` call.
+- Use `data-i18n-attr="aria-label:key;placeholder:key2"` to translate ARIA labels, placeholders, etc. (the loader tracks each attribute’s fallback automatically).
+- The locale loader caches fetched JSON, persists the user’s selection in `localStorage`, and falls back to Japanese if a fetch fails.
+- Switch languages from the header dropdown (JP/EN included). To add another language, drop in `locales/<code>.json`, add an `<option value="<code>">` entry, and translate the strings.
+
+## 🧭 Beginner-Friendly UX
+
+- The hero section now shows a four-step flow (Setup → Invite → Play → Results) to orient new hosts before they scroll.
+- Quick Game forms expose presets (Casual / Non-Alcohol / Dare) that prefill the form; every input has placeholders plus inline tooltips explaining jargon like “chambers” or “penalty”.
+- Secondary info (player list, history log, safety checklist) lives inside collapsible sections so first-time users only see core controls.
+- A contextual floating action button adapts to the current state (e.g., “Invite/Ready”, “Start Game”, “Pull Trigger”) and keeps the main CTA consistent.
+- First-run users see a guided tour modal (also accessible from the header) that summarizes the flow in four concise steps.
 
 ## 📸 Assets
 

@@ -13,11 +13,14 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">メインコンテンツへ移動</a>
+    <a class="skip-link" href="#main" data-i18n="skip.main"
+      >メインコンテンツへ移動</a
+    >
     <header
       class="site-header"
       role="banner"
       aria-label="サイト全体のナビゲーション"
+      data-i18n-attr="aria-label:aria.siteHeader"
     >
       <div class="brand">
         <span class="logo">🎯</span>
@@ -26,7 +29,7 @@
           <h1 data-i18n="brand.title">Russian Roulette Shot Game</h1>
         </div>
       </div>
-      <nav aria-label="主要セクション">
+      <nav aria-label="主要セクション" data-i18n-attr="aria-label:aria.mainNav">
         <a href="#hero" data-i18n="nav.home">🥳 ホーム</a>
         <a href="#quick-game" data-i18n="nav.quickGame">⚡ クイックゲーム</a>
         <a href="#events" data-i18n="nav.events">📅 イベント</a>
@@ -39,11 +42,18 @@
           <label for="localeSelect" class="sr-only" data-i18n="locale.label"
             >言語を選択</label
           >
-          <select id="localeSelect" aria-label="言語を選択">
-            <option value="ja">日本語</option>
-            <option value="en">English</option>
+          <select
+            id="localeSelect"
+            aria-label="言語を選択"
+            data-i18n-attr="aria-label:locale.label"
+          >
+            <option value="ja" data-i18n="locale.lang.ja">日本語</option>
+            <option value="en" data-i18n="locale.lang.en">English</option>
           </select>
         </div>
+        <button class="ghost" id="openTour" data-i18n="buttons.tour">
+          ❔ ツアー
+        </button>
         <button class="cta" id="headerQuickStart" data-i18n="buttons.startNow">
           今すぐ開始
         </button>
@@ -52,17 +62,59 @@
 
     <main id="main">
       <section class="hero" id="hero" aria-labelledby="hero-title">
-        <div>
-          <p class="eyebrow" data-i18n="hero.eyebrow">
-            ソーシャル飲み会向け · リアルタイム
-          </p>
-          <h2 id="hero-title" data-i18n="hero.title" data-i18n-type="html">
-            引き金を引いて、盛り上げよう。<br />だけど安全第一で。
-          </h2>
-          <p class="lede" data-i18n="hero.description">
-            PsyCat
-            Gamesの明るくビビッドなUI/UXを踏襲したロシアンルーレット型ショットゲーム。
-            即席の部屋作成、イベント連携、履歴管理、セーフティアラートを搭載。
+        <div class="flow-header">
+          <div>
+            <p class="eyebrow" data-i18n="hero.eyebrow">
+              ソーシャル飲み会向け · リアルタイム
+            </p>
+            <h2 id="hero-title" data-i18n="hero.title" data-i18n-type="html">
+              引き金を引いて、盛り上げよう。<br />だけど安全第一で。
+            </h2>
+          </div>
+          <div class="flow-guide">
+            <article class="flow-step active" data-step="1">
+              <div class="flow-badge">1</div>
+              <div>
+                <p data-i18n="flow.step.setup.title">設定する</p>
+                <small data-i18n="flow.step.setup.body"
+                  >プリセットを選んで細部を調整</small
+                >
+              </div>
+            </article>
+            <article class="flow-step" data-step="2">
+              <div class="flow-badge">2</div>
+              <div>
+                <p data-i18n="flow.step.invite.title">招待する</p>
+                <small data-i18n="flow.step.invite.body"
+                  >QRとリンクで友だちを招集</small
+                >
+              </div>
+            </article>
+            <article class="flow-step" data-step="3">
+              <div class="flow-badge">3</div>
+              <div>
+                <p data-i18n="flow.step.play.title">プレイする</p>
+                <small data-i18n="flow.step.play.body"
+                  >順番にトリガーを引いて記録</small
+                >
+              </div>
+            </article>
+            <article class="flow-step" data-step="4">
+              <div class="flow-badge">4</div>
+              <div>
+                <p data-i18n="flow.step.results.title">結果を見る</p>
+                <small data-i18n="flow.step.results.body"
+                  >ランキングと安全レポートを確認</small
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="hero-card">
+          <p class="eyebrow" data-i18n="hero.nextEventLabel">次のイベント</p>
+          <h3 data-i18n="hero.nextEventTitle">今夜 21:00「サークル飲み」</h3>
+          <p data-i18n="hero.nextEventMeta">
+            6人参加予定 · 3ラウンドプリセット
           </p>
           <div class="hero-actions">
             <button
@@ -80,20 +132,6 @@
               📅 イベントから開始
             </button>
           </div>
-        </div>
-        <div class="hero-card">
-          <p class="eyebrow" data-i18n="hero.nextEventLabel">次のイベント</p>
-          <h3 data-i18n="hero.nextEventTitle">今夜 21:00「サークル飲み」</h3>
-          <p data-i18n="hero.nextEventMeta">
-            6人参加予定 · 3ラウンドプリセット
-          </p>
-          <button
-            class="ghost"
-            id="heroJoinEvent"
-            data-i18n="buttons.viewEvents"
-          >
-            イベントを見る
-          </button>
         </div>
       </section>
 
@@ -124,7 +162,11 @@
         ← モバイルでは左右にスワイプして特集カードを閲覧
       </p>
 
-      <section class="app-grid" aria-label="ゲームワークスペース">
+      <section
+        class="app-grid"
+        aria-label="ゲームワークスペース"
+        data-i18n-attr="aria-label:layout.workspaceAria"
+      >
         <article
           class="card"
           id="quick-game"
@@ -139,8 +181,41 @@
             <p id="quickGameHint" class="sr-only" data-i18n="quick.hint">
               必須フィールドを入力するとクイックゲーム用のロビーが作成されます
             </p>
+            <div class="preset-strip">
+              <button
+                type="button"
+                class="preset-card"
+                data-preset="casual"
+                data-i18n="presets.casual"
+              >
+                🎉 カジュアル
+              </button>
+              <button
+                type="button"
+                class="preset-card"
+                data-preset="safe"
+                data-i18n="presets.safe"
+              >
+                🛡 ノンアル
+              </button>
+              <button
+                type="button"
+                class="preset-card"
+                data-preset="dare"
+                data-i18n="presets.dare"
+              >
+                🔥 ハード
+              </button>
+            </div>
             <label for="gameName" data-i18n="quick.gameName">ゲーム名</label>
-            <input id="gameName" name="name" value="Friday Russian" required />
+            <input
+              id="gameName"
+              name="name"
+              value="Friday Russian"
+              required
+              placeholder="Friday Shot Rush"
+              data-i18n-attr="placeholder:placeholders.gameName"
+            />
             <div class="two-col">
               <div class="field-group">
                 <label for="maxPlayers" data-i18n="quick.maxPlayers"
@@ -153,6 +228,8 @@
                   min="2"
                   max="12"
                   value="6"
+                  placeholder="6"
+                  data-i18n-attr="placeholder:placeholders.maxPlayers"
                 />
               </div>
               <div class="field-group">
@@ -166,13 +243,21 @@
                   min="1"
                   max="6"
                   value="1"
+                  placeholder="1"
+                  data-i18n-attr="placeholder:placeholders.shotCount"
                 />
               </div>
             </div>
             <div class="two-col">
               <div class="field-group">
                 <label for="chambers" data-i18n="quick.chambers"
-                  >チャンバー数</label
+                  >チャンバー数
+                  <span
+                    class="info-tip"
+                    data-i18n="tips.chambers"
+                    data-tip="リボルバー内のマス数"
+                    >?</span
+                  ></label
                 >
                 <input
                   id="chambers"
@@ -181,10 +266,20 @@
                   min="3"
                   max="12"
                   value="6"
+                  placeholder="6"
+                  data-i18n-attr="placeholder:placeholders.chambers"
                 />
               </div>
               <div class="field-group">
-                <label for="bullets" data-i18n="quick.bullets">弾丸数</label>
+                <label for="bullets" data-i18n="quick.bullets"
+                  >弾丸数
+                  <span
+                    class="info-tip"
+                    data-i18n="tips.bullets"
+                    data-tip="ヒットする確率に影響します"
+                    >?</span
+                  ></label
+                >
                 <input
                   id="bullets"
                   type="number"
@@ -192,10 +287,20 @@
                   min="1"
                   max="6"
                   value="1"
+                  placeholder="1"
+                  data-i18n-attr="placeholder:placeholders.bullets"
                 />
               </div>
             </div>
-            <label for="penalty" data-i18n="quick.penalty">ペナルティ</label>
+            <label for="penalty" data-i18n="quick.penalty"
+              >ペナルティ
+              <span
+                class="info-tip"
+                data-i18n="tips.penalty"
+                data-tip="ヒットした人に課すアクション"
+                >?</span
+              ></label
+            >
             <select id="penalty" name="penalty">
               <option value="shot" data-i18n="penalty.shot">1 Shot</option>
               <option value="water" data-i18n="penalty.water">Water</option>
@@ -282,6 +387,8 @@
             id="qrPlaceholder"
             role="img"
             aria-label="招待用QRコードプレビュー"
+            data-i18n="lobby.qrPlaceholder"
+            data-i18n-attr="aria-label:aria.qrPreview"
           >
             QRコード生成中…
           </div>
@@ -293,7 +400,10 @@
           >
             招待リンクをコピー
           </button>
-          <ul class="player-list" id="playerList" aria-live="polite"></ul>
+          <details class="card-section" open>
+            <summary data-i18n="lobby.section.players">プレイヤー一覧</summary>
+            <ul class="player-list" id="playerList" aria-live="polite"></ul>
+          </details>
           <div class="lobby-actions">
             <button
               class="secondary"
@@ -337,6 +447,10 @@
             <p id="turnInfo" aria-live="polite" data-i18n="gameplay.waitInfo">
               プレイヤーが揃うと開始できます。
             </p>
+            <div class="status-chips">
+              <span class="chip" id="modeChip">Mode</span>
+              <span class="chip" id="safetyChip">Safe</span>
+            </div>
             <button
               class="cta"
               id="pullTrigger"
@@ -357,10 +471,10 @@
               🛡 非アルモード ON
             </button>
           </div>
-          <div class="history-block" aria-live="polite">
-            <h4 data-i18n="gameplay.roundLog">ラウンドログ</h4>
+          <details class="card-section" open aria-live="polite">
+            <summary data-i18n="gameplay.roundLog">ラウンドログ</summary>
             <ul id="roundHistory"></ul>
-          </div>
+          </details>
           <div class="alert" id="safetyAlert" hidden role="alert">
             <strong data-i18n="alerts.overdrink.title"
               >⚠ 飲み過ぎアラート</strong
@@ -436,17 +550,20 @@
             <p class="eyebrow" data-i18n="safety.eyebrow">🛡 Safety</p>
             <h3 id="safety-title" data-i18n="safety.title">安心の仕組み</h3>
           </header>
-          <ul class="safety-points">
-            <li data-i18n="safety.point1">
-              リアルタイムの飲酒カウントでアラートを表示
-            </li>
-            <li data-i18n="safety.point2">
-              ホストはいつでも非アルモードに切替可能
-            </li>
-            <li data-i18n="safety.point3">
-              ログに安全イベントを保存し、あとで確認
-            </li>
-          </ul>
+          <details class="card-section" open>
+            <summary data-i18n="safety.section.title">安全ヒント</summary>
+            <ul class="safety-points">
+              <li data-i18n="safety.point1">
+                リアルタイムの飲酒カウントでアラートを表示
+              </li>
+              <li data-i18n="safety.point2">
+                ホストはいつでも非アルモードに切替可能
+              </li>
+              <li data-i18n="safety.point3">
+                ログに安全イベントを保存し、あとで確認
+              </li>
+            </ul>
+          </details>
           <button class="ghost" id="safetyGuide" data-i18n="buttons.viewGuide">
             詳細ガイドを見る
           </button>
@@ -454,23 +571,29 @@
       </section>
     </main>
 
+    <div class="primary-action-bar" id="primaryActionBar">
+      <button class="cta" id="primaryActionButton">Start</button>
+    </div>
+
     <footer class="site-footer" role="contentinfo">
       <div>
-        <h4>About</h4>
-        <a href="#">チーム紹介</a>
-        <a href="#">ミッション</a>
-        <a href="#">安全ポリシー</a>
+        <h4 data-i18n="footer.title.about">About</h4>
+        <a href="#" data-i18n="footer.links.team">チーム紹介</a>
+        <a href="#" data-i18n="footer.links.mission">ミッション</a>
+        <a href="#" data-i18n="footer.links.safety">安全ポリシー</a>
       </div>
       <div>
-        <h4>Legal</h4>
-        <a href="#">利用規約</a>
-        <a href="#">プライバシー</a>
-        <a href="#">クッキーポリシー</a>
+        <h4 data-i18n="footer.title.legal">Legal</h4>
+        <a href="#" data-i18n="footer.links.tos">利用規約</a>
+        <a href="#" data-i18n="footer.links.privacy">プライバシー</a>
+        <a href="#" data-i18n="footer.links.cookies">クッキーポリシー</a>
       </div>
       <div>
-        <h4>Apps</h4>
-        <button class="ghost">App Store</button>
-        <button class="ghost">Google Play</button>
+        <h4 data-i18n="footer.title.apps">Apps</h4>
+        <button class="ghost" data-i18n="footer.apps.ios">App Store</button>
+        <button class="ghost" data-i18n="footer.apps.android">
+          Google Play
+        </button>
       </div>
       <p class="copyright">
         © 2025 Russian Roulette Shot Game · Vanilla Family
@@ -529,6 +652,21 @@
         >
           🛡 非アルモードに切替
         </button>
+      </div>
+    </div>
+
+    <div class="modal" id="tourModal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true">
+        <button class="ghost close" id="closeTour">✕</button>
+        <p class="eyebrow" data-i18n="tour.title">クイックツアー</p>
+        <h3 id="tourStepTitle">Step 1</h3>
+        <p id="tourStepBody">ガイド付きでアプリの流れを確認しましょう。</p>
+        <div class="tour-actions">
+          <button class="ghost" id="skipTour" data-i18n="tour.skip">
+            スキップ
+          </button>
+          <button class="cta" id="nextTour" data-i18n="tour.next">次へ</button>
+        </div>
       </div>
     </div>
 

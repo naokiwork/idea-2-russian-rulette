@@ -2,10 +2,13 @@ import { shouldHit } from './src/gameMath.js';
 
 const STORAGE_KEY = 'rr-shot-state';
 const LOCALE_STORAGE_KEY = 'rr-shot-locale';
+const DEFAULT_LOCALE = 'ja';
+const TOUR_STORAGE_KEY = 'rr-tour-complete';
 
 const locale = {
-  current: 'ja',
+  current: DEFAULT_LOCALE,
   data: {},
+  cache: {},
 };
 
 const state = {
@@ -91,6 +94,38 @@ const state = {
   roundLogs: [],
   results: null,
   nonAlcohol: false,
+  presets: {
+    casual: {
+      name: 'Casual Night',
+      maxPlayers: 6,
+      shotCount: 1,
+      chambers: 6,
+      bullets: 1,
+      penalty: 'shot',
+      rounds: 6,
+      nonAlcohol: false,
+    },
+    safe: {
+      name: 'Hydration Mode',
+      maxPlayers: 5,
+      shotCount: 0,
+      chambers: 6,
+      bullets: 1,
+      penalty: 'water',
+      rounds: 6,
+      nonAlcohol: true,
+    },
+    dare: {
+      name: 'Dare Devils',
+      maxPlayers: 8,
+      shotCount: 1,
+      chambers: 8,
+      bullets: 2,
+      penalty: 'dare',
+      rounds: 10,
+      nonAlcohol: false,
+    },
+  },
 };
 
 const selectors = {
@@ -124,10 +159,32 @@ const selectors = {
   toastRegion: document.getElementById('toastRegion'),
   modalToggleNonAlcohol: document.getElementById('modalToggleNonAlcohol'),
   localeSelect: document.getElementById('localeSelect'),
+  presetButtons: document.querySelectorAll('[data-preset]'),
+  primaryActionButton: document.getElementById('primaryActionButton'),
+  primaryActionBar: document.getElementById('primaryActionBar'),
+  modeChip: document.getElementById('modeChip'),
+  safetyChip: document.getElementById('safetyChip'),
+  openTour: document.getElementById('openTour'),
+  tourModal: document.getElementById('tourModal'),
+  closeTour: document.getElementById('closeTour'),
+  nextTour: document.getElementById('nextTour'),
+  skipTour: document.getElementById('skipTour'),
+  tourStepTitle: document.getElementById('tourStepTitle'),
+  tourStepBody: document.getElementById('tourStepBody'),
 };
 
+let primaryActionHandler = null;
+let tourStepIndex = 0;
+const tourSteps = [
+  { title: 'tour.steps.setup.title', body: 'tour.steps.setup.body' },
+  { title: 'tour.steps.invite.title', body: 'tour.steps.invite.body' },
+  { title: 'tour.steps.play.title', body: 'tour.steps.play.body' },
+  { title: 'tour.steps.results.title', body: 'tour.steps.results.body' },
+];
+
 async function init() {
-  const savedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) || 'ja';
+  const savedLocale =
+    localStorage.getItem(LOCALE_STORAGE_KEY) || DEFAULT_LOCALE;
   await loadLocale(savedLocale, { skipRefresh: true });
   renderEvents();
   renderHistory();
@@ -177,8 +234,22 @@ async function init() {
   selectors.localeSelect?.addEventListener('change', (event) =>
     loadLocale(event.target.value)
   );
+  selectors.presetButtons.forEach((btn) =>
+    btn.addEventListener('click', () => applyPreset(btn.dataset.preset))
+  );
+  selectors.primaryActionButton?.addEventListener('click', () => {
+    if (primaryActionHandler) primaryActionHandler();
+  });
+  selectors.openTour?.addEventListener('click', () => openTourModal(true));
+  selectors.closeTour?.addEventListener('click', () => closeTourModal());
+  selectors.skipTour?.addEventListener('click', () => closeTourModal(true));
+  selectors.nextTour?.addEventListener('click', () => nextTourStep());
   if (selectors.localeSelect) {
     selectors.localeSelect.value = savedLocale;
+  }
+  updatePrimaryAction();
+  if (!localStorage.getItem(TOUR_STORAGE_KEY)) {
+    openTourModal(false);
   }
 }
 
@@ -216,6 +287,7 @@ function createRoom(config) {
   state.roundLogs = [];
   state.results = null;
   state.nonAlcohol = config.nonAlcohol;
+  highlightPreset(config);
   updateLobbyUI();
   updateGameplayUI();
   renderResults();
@@ -258,7 +330,11 @@ function startFromEvent(eventId) {
   const selected = state.events.find((evt) => evt.id === eventId);
   if (!selected) return;
   createRoom(selected.preset);
-  selectors.roomMeta.textContent = `${selected.title} ルーム準備完了`;
+  selectors.roomMeta.textContent = t(
+    'lobby.metaPresetReady',
+    { title: selected.title },
+    `${selected.title} ルーム準備完了`
+  );
 }
 
 function updateLobbyUI() {
@@ -272,9 +348,14 @@ function updateLobbyUI() {
     selectors.copyInvite.disabled = true;
     selectors.playerList.innerHTML = '';
     selectors.startGame.disabled = true;
+    updatePrimaryAction();
     return;
   }
-  selectors.roomMeta.textContent = `${state.currentRoom.name} · Room ${state.currentRoom.id}`;
+  selectors.roomMeta.textContent = t(
+    'lobby.metaWithId',
+    { name: state.currentRoom.name, id: state.currentRoom.id },
+    `${state.currentRoom.name} · Room ${state.currentRoom.id}`
+  );
   const qrJoin = t('lobby.qrJoin', {}, 'Scan to join');
   selectors.qrPlaceholder.textContent = `#${state.currentRoom.id}\n${qrJoin}`;
   selectors.copyInvite.disabled = false;
@@ -293,6 +374,7 @@ function updateLobbyUI() {
     ? t('buttons.cancelReady', {}, 'Ready解除')
     : t('buttons.readySelf', {}, '自分をReady');
   selectors.startGame.disabled = !state.players.every((p) => p.ready);
+  updatePrimaryAction();
 }
 
 function togglePlayerReady(name) {
@@ -332,7 +414,11 @@ function startGame() {
 
 function updateGameplayUI() {
   if (!state.isGameActive) {
-    selectors.roundLabel.textContent = 'Round —';
+    selectors.roundLabel.textContent = t(
+      'gameplay.roundUnknown',
+      {},
+      'Round —'
+    );
     selectors.turnLabel.textContent = t(
       'gameplay.turnWaiting',
       {},
@@ -369,8 +455,15 @@ function updateGameplayUI() {
   selectors.toggleNonAlcohol.textContent = state.nonAlcohol
     ? t('buttons.nonAlcoholOff', {}, '🛡 非アルモード OFF')
     : t('buttons.nonAlcoholOn', {}, '🛡 非アルモード ON');
+  if (selectors.modeChip) {
+    selectors.modeChip.textContent = state.nonAlcohol
+      ? t('statusChip.nonAlcoholOn', {}, '🛡 非アルモード')
+      : t('statusChip.nonAlcoholOff', {}, '🍹 ショットモード');
+    selectors.modeChip.classList.toggle('chip-safe', state.nonAlcohol);
+  }
   renderRoundHistory();
   handleSafetyAlert();
+  updatePrimaryAction();
 }
 
 function pullTrigger() {
@@ -431,6 +524,13 @@ function handleSafetyAlert() {
   } else {
     selectors.toggleNonAlcohol.classList.remove('danger');
   }
+  if (selectors.safetyChip) {
+    selectors.safetyChip.textContent = shouldAlert
+      ? t('statusChip.alert', {}, '⚠ 飲み過ぎ注意')
+      : t('statusChip.safe', {}, '✅ セーフティ良好');
+    selectors.safetyChip.classList.toggle('chip-alert', shouldAlert);
+    selectors.safetyChip.classList.toggle('chip-safe', !shouldAlert);
+  }
 }
 
 function finishGame() {
@@ -453,6 +553,7 @@ function finishGame() {
   renderHistory();
   renderResults();
   updateGameplayUI();
+  updatePrimaryAction();
   persistState();
 }
 
@@ -483,6 +584,7 @@ function renderResults() {
   `;
   selectors.rematch.disabled = false;
   selectors.shareResult.disabled = false;
+  updatePrimaryAction();
 }
 
 function renderHistory() {
@@ -516,7 +618,14 @@ function renderHistory() {
 function showHistoryDetail(historyId) {
   const hist = state.history.find((item) => item.id === historyId);
   if (!hist) return;
-  showToast(`${hist.name} · MVP ${hist.mvp} · 詳細は近日追加予定`, 'info');
+  showToast(
+    t(
+      'toast.history.soon',
+      { name: hist.name, mvp: hist.mvp },
+      `${hist.name} · MVP ${hist.mvp} · 詳細は近日追加予定`
+    ),
+    'info'
+  );
 }
 
 function copyInviteLink() {
@@ -638,14 +747,159 @@ function closeGuide() {
   selectors.guideModal.dataset.open = 'false';
 }
 
+function applyPreset(key) {
+  const preset = state.presets[key];
+  if (!preset) return;
+  selectors.presetButtons.forEach((btn) =>
+    btn.classList.toggle('active', btn.dataset.preset === key)
+  );
+  const form = selectors.quickGameForm.elements;
+  form.name.value = preset.name;
+  form.maxPlayers.value = preset.maxPlayers;
+  form.shotCount.value = preset.shotCount;
+  form.chambers.value = preset.chambers;
+  form.bullets.value = preset.bullets;
+  form.penalty.value = preset.penalty;
+  form.rounds.value =
+    preset.rounds === Infinity ? 'unlimited' : String(preset.rounds);
+  form.nonAlcohol.checked = preset.nonAlcohol;
+  showToast(t('presets.applied', {}, 'プリセットを反映しました'), 'info');
+}
+
+function highlightPreset(config) {
+  const match = Object.entries(state.presets).find(
+    ([, preset]) =>
+      preset.maxPlayers === config.maxPlayers &&
+      preset.shotCount === config.shotCount &&
+      preset.chambers === config.chambers &&
+      preset.bullets === config.bullets &&
+      preset.penalty === config.penalty &&
+      (preset.rounds === Infinity
+        ? config.rounds === Infinity
+        : preset.rounds === config.rounds) &&
+      preset.nonAlcohol === config.nonAlcohol
+  );
+  selectors.presetButtons.forEach((btn) =>
+    btn.classList.toggle('active', btn.dataset.preset === match?.[0])
+  );
+}
+
+function updatePrimaryAction() {
+  if (!selectors.primaryActionButton) return;
+  let action = null;
+  if (!state.currentRoom) {
+    action = {
+      label: t('actions.setup', {}, '設定に進む'),
+      handler: () =>
+        document.getElementById('quick-game')?.scrollIntoView({
+          behavior: 'smooth',
+        }),
+    };
+  } else if (!state.isGameActive) {
+    if (!state.players.every((p) => p.ready)) {
+      action = {
+        label: t('actions.invite', {}, '招待/Readyを促す'),
+        handler: () =>
+          document.getElementById('lobby')?.scrollIntoView({
+            behavior: 'smooth',
+          }),
+      };
+    } else if (state.results) {
+      action = {
+        label: t('actions.viewResults', {}, '結果を見る'),
+        handler: () =>
+          document.getElementById('results')?.scrollIntoView({
+            behavior: 'smooth',
+          }),
+      };
+    } else {
+      action = {
+        label: t('actions.startGame', {}, 'ゲーム開始'),
+        handler: startGame,
+      };
+    }
+  } else {
+    action = {
+      label: t('actions.pullTrigger', {}, 'Pull Trigger'),
+      handler: () => selectors.pullTrigger?.click(),
+      disabled: selectors.pullTrigger?.disabled,
+    };
+  }
+
+  const button = selectors.primaryActionButton;
+  if (!action) {
+    button.disabled = true;
+    button.textContent = t('actions.unavailable', {}, '準備中…');
+    primaryActionHandler = null;
+  } else {
+    button.disabled = Boolean(action.disabled);
+    button.textContent = action.label;
+    primaryActionHandler = action.handler;
+  }
+}
+
+function openTourModal(forced) {
+  if (!selectors.tourModal) return;
+  tourStepIndex = 0;
+  selectors.tourModal.dataset.open = 'true';
+  updateTourContent();
+  if (forced) {
+    localStorage.removeItem(TOUR_STORAGE_KEY);
+  }
+}
+
+function closeTourModal(completed = false) {
+  if (!selectors.tourModal) return;
+  selectors.tourModal.dataset.open = 'false';
+  if (completed) {
+    localStorage.setItem(TOUR_STORAGE_KEY, '1');
+  }
+}
+
+function nextTourStep() {
+  if (tourStepIndex < tourSteps.length - 1) {
+    tourStepIndex += 1;
+    updateTourContent();
+  } else {
+    closeTourModal(true);
+  }
+}
+
+function updateTourContent() {
+  const step = tourSteps[tourStepIndex];
+  if (!step || !selectors.tourStepTitle) return;
+  selectors.tourStepTitle.textContent = t(
+    step.title,
+    {},
+    `Step ${tourStepIndex + 1}`
+  );
+  selectors.tourStepBody.textContent = t(step.body, {}, '');
+  if (selectors.nextTour) {
+    selectors.nextTour.textContent =
+      tourStepIndex === tourSteps.length - 1
+        ? t('tour.finish', {}, '完了')
+        : t('tour.next', {}, '次へ');
+  }
+}
+
 async function loadLocale(lang, options = {}) {
   try {
-    const response = await fetch(`./locales/${lang}.json`);
-    if (!response.ok) throw new Error(`Locale ${lang} not found`);
-    locale.data = await response.json();
+    let payload = locale.cache[lang];
+    if (!payload) {
+      const response = await fetch(`./locales/${lang}.json`, {
+        cache: 'no-store',
+      });
+      if (!response.ok) throw new Error(`Locale ${lang} not found`);
+      payload = await response.json();
+      locale.cache[lang] = payload;
+    }
+    locale.data = payload;
     locale.current = lang;
     localStorage.setItem(LOCALE_STORAGE_KEY, lang);
     applyTranslations();
+    if (selectors.localeSelect) {
+      selectors.localeSelect.value = lang;
+    }
     if (!options.skipRefresh) {
       renderEvents();
       renderHistory();
@@ -655,6 +909,9 @@ async function loadLocale(lang, options = {}) {
     }
   } catch (error) {
     console.warn('Failed to load locale', lang, error);
+    if (lang !== DEFAULT_LOCALE && !options.retry) {
+      await loadLocale(DEFAULT_LOCALE, { ...options, retry: true });
+    }
   }
 }
 
@@ -671,6 +928,29 @@ function applyTranslations() {
     } else {
       node.textContent = text;
     }
+  });
+
+  document.querySelectorAll('[data-i18n-attr]').forEach((node) => {
+    const attrPairs = node.dataset.i18nAttr
+      .split(';')
+      .map((pair) => pair.trim())
+      .filter(Boolean)
+      .map((pair) => pair.split(':').map((seg) => seg.trim()))
+      .filter(([attr, key]) => attr && key);
+    if (!attrPairs.length) return;
+
+    const fallbackCache = node.dataset.i18nAttrFallback
+      ? JSON.parse(node.dataset.i18nAttrFallback)
+      : {};
+
+    attrPairs.forEach(([attr, key]) => {
+      if (!(attr in fallbackCache)) {
+        fallbackCache[attr] = node.getAttribute(attr) || '';
+      }
+      node.setAttribute(attr, t(key, {}, fallbackCache[attr]));
+    });
+
+    node.dataset.i18nAttrFallback = JSON.stringify(fallbackCache);
   });
 }
 
